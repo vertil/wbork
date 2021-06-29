@@ -268,6 +268,23 @@ public:
 
                        bodyMove*=buffMat;
                        break;
+                     case SDL_SCANCODE_Q:
+
+                        buffMat=glm::mat4(1.0f);
+                        buffMat=glm::scale(buffMat,glm::vec3(2.0f,2.0f,0.0f));
+
+                        bodyMove*=buffMat;
+
+                        break;
+                    case SDL_SCANCODE_E:
+
+                       buffMat=glm::mat4(1.0f);
+                       buffMat=glm::scale(buffMat,glm::vec3(0.5f,0.5f,0.0f));
+
+                       bodyMove*=buffMat;
+
+                       break;
+
                 }
 
 

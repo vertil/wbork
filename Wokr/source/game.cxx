@@ -35,9 +35,10 @@ int main(int, char **){
     bool q=true;
     while(q){
         q=eng.event();
-        eng.render_background();
-        eng.render_texture(1);
+
+        eng.render();
         eng.swapBuffers();
+        //std::cout<<"sas"<<std::endl;
     }
   
 }

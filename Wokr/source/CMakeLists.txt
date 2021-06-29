@@ -16,6 +16,7 @@ add_library(lodepng SHARED
                     lodepng.h)
 target_compile_features(lodepng PUBLIC cxx_std_17)
 
+
 add_executable(game_heli
 
                             engine.hxx
@@ -31,4 +32,3 @@ target_link_libraries(game_heli PRIVATE glad)
 target_link_libraries(game_heli PRIVATE lodepng)
 
 
-target_compile_features(game_heli PUBLIC cxx_std_17)

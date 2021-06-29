@@ -181,6 +181,8 @@ CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtc/quate
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtc/type_ptr.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtc/type_ptr.inl
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtc/vec1.hpp
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtx/matrix_decompose.hpp
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/gtx/matrix_decompose.inl
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/integer.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/mat2x2.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/mat2x3.hpp

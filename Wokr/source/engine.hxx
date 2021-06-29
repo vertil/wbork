@@ -10,10 +10,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <SDL2/SDL.h>
-//#include <thread>
+#include <thread>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/matrix_decompose.hpp"
 #include "structs.hxx"
 #include "lodepng.h"
 
@@ -33,9 +34,7 @@ class engine{
     GLuint        program_id_body = 0;
     //textures
     GLuint tex_handl [2];
-    //--players
-    float side=0.0f;
-    float speed=0.5f;
+
     glm::mat4 bodyMove=glm::mat4(1.0f);
     glm::mat4 buffMat=glm::mat4(1.0f);
 
@@ -46,17 +45,12 @@ class engine{
     triangle body1;
     triangle body2;
 
-    //----
-    bool is_forward=false;
-    char rotation='n';
+
     //----SDL
     SDL_Window *window;
     SDL_Event event_log;
     SDL_Renderer *rend;
-    //---hp
-    triangle hp1;
-    triangle hp2;
-    //audio
+
 
 public:
     engine(){
@@ -72,11 +66,6 @@ public:
             //return serr.str();
         }
 
-        /*if (0 != SDL_Init(SDL_INIT_EVERYTHING))
-        {
-            std::cerr << SDL_GetError() << std::endl;
-            //return EXIT_FAILURE;
-        }*/
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
         window=SDL_CreateWindow("Loop",
@@ -201,38 +190,8 @@ public:
                body2.v[2].tex_x=1.0;
                body2.v[2].tex_y=1.0;
 
-        //blow->setPlace(body1,body2);
-        //--------hp
+        bodyMove=glm::mat4(1.0f);
 
-               hp1.v[0].x=-0.03;
-               hp1.v[0].y=-0.03;
-               hp1.v[0].tex_x=0.0;
-               hp1.v[0].tex_y=1.0;
-                       //2
-                       hp1.v[1].x=-0.03;
-                       hp1.v[1].y=0.03;
-                       hp1.v[1].tex_x=0.0;
-                       hp1.v[1].tex_y=0.0;
-                       //3
-                       hp1.v[2].x=0.03;
-                       hp1.v[2].y=-0.03;
-                       hp1.v[2].tex_x=1.0;
-                       hp1.v[2].tex_y=1.0;
-                       //
-                       hp2.v[0].x=-0.03;
-                           hp2.v[0].y=0.03;
-                           hp2.v[0].tex_x=0.0;
-                           hp2.v[0].tex_y=0.0;
-                           //2
-                      hp2.v[1].x=0.03;
-                      hp2.v[1].y=0.03;
-                      hp2.v[1].tex_x=1.0;
-                      hp2.v[1].tex_y=0.0;
-                           //3
-                      hp2.v[2].x=0.03;
-                      hp2.v[2].y=-0.03;
-                      hp2.v[2].tex_x=1.0;
-                      hp2.v[2].tex_y=1.0;
 
 
     }
@@ -281,8 +240,40 @@ public:
         while(SDL_PollEvent(&event_log)){
             if(event_log.type==SDL_QUIT){
                 return false;
-            }
+            }else if(event_log.type==SDL_KEYDOWN){
 
+                    switch(event_log.key.keysym.scancode){
+                    case SDL_SCANCODE_A:
+                        //move X
+                        buffMat=glm::mat4(1.0f);
+
+                        buffMat=glm::translate(buffMat, glm::vec3(-0.2f,0.0f,0.0f));
+                        bodyMove*=buffMat;
+
+                        break;
+                    case SDL_SCANCODE_D:
+                        //move X
+                        buffMat=glm::mat4(1.0f);
+
+                        buffMat=glm::translate(buffMat, glm::vec3(0.2f,0.0f,0.0f));
+                        bodyMove*=buffMat;
+
+                        break;
+                    case SDL_SCANCODE_S:
+                        //rotate
+                        buffMat=glm::mat4(1.0f);
+                        buffMat=glm::rotate(buffMat,glm::radians(45.0f),glm::vec3(0.0f,0.0f,1.0f));
+
+
+
+                       bodyMove*=buffMat;
+                       break;
+                }
+
+
+                return true;
+            }
+          return true;
 
         }
         return true;
@@ -669,42 +660,23 @@ public:
 
     }
     void render_texture(u_int8_t textnum){
-        activateProgBackground(textnum);
+        activateProgBody(textnum,bodyMove);
         render_triangle(body1);
         render_triangle(body2);
     }
 
     void render(){
-        //nxt 3 lines = render_background
-        activateProgBody(1,glm::mat4(1.0));
-        render_triangle(background1);
-        render_triangle(background2);
+        render_background();
 
-
-
-        //activateProgBody(helicopter->getBodyTexNum(),helicopter->getMoveMat());
-        render_triangle(body1);
-        render_triangle(body2);
-
-        /*if(blow->isactive()){
-            activateProgBody(blow->get_tex_num(),helicopter->getMoveMat());
-            render_sprite(blow->getframe());
-
-        }*/
-
-        //activateProgBody(helicopter->getBladesTexNum(),helicopter->getWingMat());
+        activateProgBody(1,bodyMove);
         render_triangle(body1);
         render_triangle(body2);
 
 
 
-    }
-    void logic(){
 
     }
-    triangle gettriangle(int a){
 
-    }
 };
 //tests for gl functions
 static const char* source_to_strv(GLenum source)

@@ -11,8 +11,7 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_libraries",
-			"target_compile_features"
+			"target_link_libraries"
 		],
 		"files" : 
 		[
@@ -26,13 +25,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 19,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 29,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -48,9 +41,9 @@
 				"parent" : 0
 			},
 			{
-				"command" : 2,
+				"command" : 1,
 				"file" : 0,
-				"line" : 34,
+				"line" : 32,
 				"parent" : 0
 			}
 		]
@@ -80,7 +73,7 @@
 			{
 				"backtraces" : 
 				[
-					5
+					3
 				],
 				"standard" : "17"
 			},

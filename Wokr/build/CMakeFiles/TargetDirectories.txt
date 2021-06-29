@@ -1,0 +1,5 @@
+/home/vertil/bork/Wokr/build/CMakeFiles/rebuild_cache.dir
+/home/vertil/bork/Wokr/build/CMakeFiles/edit_cache.dir
+/home/vertil/bork/Wokr/build/CMakeFiles/game_heli.dir
+/home/vertil/bork/Wokr/build/CMakeFiles/lodepng.dir
+/home/vertil/bork/Wokr/build/CMakeFiles/glad.dir

@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/vertil/bork/Wokr/source/lodepng.cpp
+lodepng.h
+/home/vertil/bork/Wokr/source/lodepng.h
+limits.h
+-
+stdio.h
+-
+stdlib.h
+-
+
+/home/vertil/bork/Wokr/source/lodepng.h
+string.h
+-
+vector
+-
+string
+-
+lodepng.h
+/home/vertil/bork/Wokr/source/lodepng.h
+iostream
+-
+lodepng.h
+/home/vertil/bork/Wokr/source/lodepng.h
+

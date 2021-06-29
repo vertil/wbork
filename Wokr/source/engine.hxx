@@ -42,7 +42,10 @@ class engine{
 
     float colorDun=1.0;
 
+    float range_of_veg=0.8f;
+
     bool isvignette=true;
+    bool istimer=false;
 
     //--MAP
     triangle background1;
@@ -614,6 +617,7 @@ public:
                                                in vec2 u_resolution;
                                                uniform sampler2D s_texture;
                                                uniform float color_dub;
+                                               uniform float range_of_veg;
                                                out vec4 frag_color;
                                                void main()
                                                {
@@ -622,7 +626,7 @@ public:
 
                                                     float dist=length(pos);
 
-                                                    color.rgb=(color.rgb-(1.0-smoothstep(0.6,0.2,dist)));
+                                                    color.rgb=(color.rgb-(1.0-smoothstep(range_of_veg,0.2,dist)));
 
                                                     color.g*=color_dub;
                                                     color.b*=color_dub;
@@ -867,6 +871,9 @@ public:
         GLuint mum=glGetUniformLocation(program_id_body,"color_dub");
         glUniform1f(mum,colorDun);
 
+        GLuint mim=glGetUniformLocation(program_id_body,"range_of_veg");
+        glUniform1f(mim,range_of_veg);
+
 
 
 
@@ -981,10 +988,26 @@ public:
             render_triangle(body2);
         }
 
-        //imhui part
+        //imgui part
         imgui_newframe(window);
-        imgui_window(bodyMove,buffMat,isvignette,&colorDun);
+        imgui_window(bodyMove,buffMat,isvignette,&colorDun,&istimer,&range_of_veg);
         imgui_render();
+
+        if(istimer==true){
+            if(colorDun>=1.0f){
+                colorDun=0.0f;
+            }else{
+                colorDun+=0.005;
+            }
+            if(range_of_veg>=1.0){
+                range_of_veg=0.25f;
+            }else{
+                range_of_veg+=0.005;
+            }
+
+        }
+
+
 
 
 

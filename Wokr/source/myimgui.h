@@ -28,7 +28,8 @@ void imgui_newframe(SDL_Window* window){
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
 }
-void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat, bool & isVig,float * color){
+void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat, bool & isVig,float * color,
+                  bool * istim,float * range_of_vag){
 
 
 
@@ -77,7 +78,11 @@ void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat, bool & isVig,float 
         }
     }
 
+
+    ImGui::Checkbox("timer",istim);
+
     ImGui::SliderFloat("color-mod",color,0.0f,1.0f);
+    ImGui::SliderFloat("range_of_Vegnet",range_of_vag,0.25f,1.0f);
 }
 void imgui_render(){
     ImGui::Render();

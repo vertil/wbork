@@ -32,6 +32,7 @@ int main(int, char **){
     eng.initData();
     eng.initfTriagBackground();
 
+
     bool q=true;
     while(q){
         q=eng.event();

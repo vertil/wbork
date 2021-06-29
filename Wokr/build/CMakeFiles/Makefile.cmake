@@ -11,6 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.19.7/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.19.7/CMakeSystem.cmake"
   "/home/vertil/bork/Wokr/source/CMakeLists.txt"
+  "/home/vertil/bork/Wokr/source/imgui/CMakeLists.txt"
   "/usr/local/lib/cmake/SDL2/SDL2Config.cmake"
   "/usr/local/lib/cmake/SDL2/SDL2ConfigVersion.cmake"
   "/usr/local/lib/cmake/SDL2/SDL2Targets-debug.cmake"
@@ -43,6 +44,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "imgui/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -50,4 +52,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/game_heli.dir/DependInfo.cmake"
   "CMakeFiles/lodepng.dir/DependInfo.cmake"
   "CMakeFiles/glad.dir/DependInfo.cmake"
+  "imgui/CMakeFiles/imgui.dir/DependInfo.cmake"
   )

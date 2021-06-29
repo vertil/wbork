@@ -100,6 +100,7 @@ game_heli: CMakeFiles/game_heli.dir/game.cxx.o
 game_heli: CMakeFiles/game_heli.dir/build.make
 game_heli: /usr/local/lib/libSDL2-2.0d.so.0.14.0
 game_heli: /usr/local/lib/libSDL2maind.a
+game_heli: imgui/libimgui.a
 game_heli: libglad.so
 game_heli: liblodepng.so
 game_heli: CMakeFiles/game_heli.dir/link.txt

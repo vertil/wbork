@@ -208,5 +208,10 @@ CMakeFiles/game_heli.dir/game.cxx.o
  /home/vertil/bork/Wokr/source/glm/vec3.hpp
  /home/vertil/bork/Wokr/source/glm/vec4.hpp
  /home/vertil/bork/Wokr/source/glm/vector_relational.hpp
+ /home/vertil/bork/Wokr/source/imgui/imconfig.h
+ /home/vertil/bork/Wokr/source/imgui/imgui.h
+ /home/vertil/bork/Wokr/source/imgui/imgui_impl_opengl3.h
+ /home/vertil/bork/Wokr/source/imgui/imgui_impl_sdl.h
  /home/vertil/bork/Wokr/source/lodepng.h
+ /home/vertil/bork/Wokr/source/myimgui.h
  /home/vertil/bork/Wokr/source/structs.hxx

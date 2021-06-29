@@ -43,6 +43,8 @@ structs.hxx
 /home/vertil/bork/Wokr/source/structs.hxx
 lodepng.h
 /home/vertil/bork/Wokr/source/lodepng.h
+myimgui.h
+/home/vertil/bork/Wokr/source/myimgui.h
 glad/glad.h
 /home/vertil/bork/Wokr/source/glad/glad.h
 
@@ -1480,6 +1482,36 @@ detail/setup.hpp
 detail/func_vector_relational.inl
 /home/vertil/bork/Wokr/source/glm/detail/func_vector_relational.inl
 
+/home/vertil/bork/Wokr/source/imgui/imconfig.h
+
+/home/vertil/bork/Wokr/source/imgui/imgui.h
+imconfig.h
+/home/vertil/bork/Wokr/source/imgui/imconfig.h
+float.h
+-
+stdarg.h
+-
+stddef.h
+-
+string.h
+-
+assert.h
+-
+stdint.h
+-
+imgui_user.h
+/home/vertil/bork/Wokr/source/imgui/imgui_user.h
+
+/home/vertil/bork/Wokr/source/imgui/imgui_impl_opengl3.h
+imgui.h
+/home/vertil/bork/Wokr/source/imgui/imgui.h
+TargetConditionals.h
+/home/vertil/bork/Wokr/source/imgui/TargetConditionals.h
+
+/home/vertil/bork/Wokr/source/imgui/imgui_impl_sdl.h
+imgui.h
+/home/vertil/bork/Wokr/source/imgui/imgui.h
+
 /home/vertil/bork/Wokr/source/lodepng.h
 string.h
 -
@@ -1493,6 +1525,18 @@ iostream
 -
 lodepng.h
 /home/vertil/bork/Wokr/source/lodepng.h
+
+/home/vertil/bork/Wokr/source/myimgui.h
+SDL2/SDL.h
+-
+engine.hxx
+/home/vertil/bork/Wokr/source/engine.hxx
+imgui/imgui.h
+/home/vertil/bork/Wokr/source/imgui/imgui.h
+imgui_impl_sdl.h
+/home/vertil/bork/Wokr/source/imgui_impl_sdl.h
+imgui_impl_opengl3.h
+/home/vertil/bork/Wokr/source/imgui_impl_opengl3.h
 
 /home/vertil/bork/Wokr/source/structs.hxx
 

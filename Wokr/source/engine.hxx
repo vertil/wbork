@@ -18,6 +18,7 @@
 #include "structs.hxx"
 #include "lodepng.h"
 
+#include "myimgui.h"
 
 #include "glad/glad.h"
 
@@ -37,6 +38,8 @@ class engine{
 
     glm::mat4 bodyMove=glm::mat4(1.0f);
     glm::mat4 buffMat=glm::mat4(1.0f);
+
+    float angle=0;
 
     //--MAP
     triangle background1;
@@ -154,6 +157,8 @@ public:
 
            glGenTextures(20, tex_handl); //texture descriptor
            OM_GL_CHECK()
+                   gl_context=SDL_GL_CreateContext(window);
+                   imgui_init(window,gl_context);
 
     }
     void initData(){
@@ -198,7 +203,7 @@ public:
     ~engine(){
 
 
-
+        imgui_shutdown();
         SDL_DestroyRenderer(rend);
         SDL_DestroyWindow(window);
         SDL_Quit();
@@ -245,9 +250,11 @@ public:
                     switch(event_log.key.keysym.scancode){
                     case SDL_SCANCODE_A:
                         //move X
+                        //std::cout<<std::to_string(bodyMove[3][0])<<" "<<std::to_string(bodyMove[3][1])<<" "<<std::to_string(bodyMove[3][2])<<" "<<std::to_string(bodyMove[3][3])<<std::endl;
                         buffMat=glm::mat4(1.0f);
 
                         buffMat=glm::translate(buffMat, glm::vec3(-0.2f,0.0f,0.0f));
+
                         bodyMove*=buffMat;
 
                         break;
@@ -256,11 +263,16 @@ public:
                         buffMat=glm::mat4(1.0f);
 
                         buffMat=glm::translate(buffMat, glm::vec3(0.2f,0.0f,0.0f));
-                        bodyMove*=buffMat;
 
+                        bodyMove*=buffMat;
                         break;
                     case SDL_SCANCODE_S:
                         //rotate
+                        angle+=45.0f;
+                        if(angle==360.0f){
+                            angle=0.0f;
+                        }
+                        std::cout<<angle<<std::endl;
                         buffMat=glm::mat4(1.0f);
                         buffMat=glm::rotate(buffMat,glm::radians(45.0f),glm::vec3(0.0f,0.0f,1.0f));
 
@@ -389,7 +401,9 @@ public:
                                                out vec4 frag_color;
                                                void main()
                                                {
-                                                 frag_color = texture(s_texture, v_tex_coord);
+                                                    vec4 color=texture(s_texture, v_tex_coord);
+
+                                                 frag_color = color;
                                                }
                           )";
         /**/
@@ -472,11 +486,14 @@ public:
                                              layout(location=0)in vec4 vPosition;
                                              in vec2 a_tex_coord;
 
-                                             out vec2 v_tex_coord;
+                                             in vec2 a_resolution;
 
+                                             out vec2 v_tex_coord;
+                                             out vec2 u_resolution;
                                              void main()
                                              {
                                                  v_tex_coord=a_tex_coord;
+                                                 u_resolution=a_resolution;
                                                  gl_Position=rot_matrix * vPosition;//vertex pos
                                              }
                                         )";
@@ -511,19 +528,28 @@ public:
         GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
         OM_GL_CHECK()
         std::string_view fragment_shader_src = R"(
+
                                                #version 300 es
                                                precision mediump float;
-
                                                in vec2 v_tex_coord;
-
+                                               in vec2 u_resolution;
                                                uniform sampler2D s_texture;
-
                                                out vec4 frag_color;
                                                void main()
                                                {
-                                                 frag_color = texture(s_texture, v_tex_coord);
+                                                    vec4 color=texture(s_texture, v_tex_coord);
+                                                    vec2 pos=(v_tex_coord/1.0)-vec2(0.5);
+
+                                                    float dist=length(pos);
+
+                                                    color.rgb=color.rgb-(1.0-smoothstep(0.6,0.2,dist));
+
+
+
+                                                    frag_color = color;
+
                                                }
-                          )";
+                )";
         /**/
         source                          = fragment_shader_src.data();
         glShaderSource(fragment_shader, 1, &source, nullptr);
@@ -620,6 +646,8 @@ public:
         glUseProgram(program_id_body);
         OM_GL_CHECK()
 
+
+
         GLuint mem=glGetUniformLocation(program_id_body,"rot_matrix");
         OM_GL_CHECK()
 
@@ -689,6 +717,10 @@ public:
         render_triangle(body1);
         render_triangle(body2);
 
+        //imhui part
+        imgui_newframe(window);
+        imgui_window(bodyMove,buffMat);
+        imgui_render();
 
 
 

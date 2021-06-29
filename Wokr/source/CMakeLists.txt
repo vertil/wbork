@@ -16,6 +16,8 @@ add_library(lodepng SHARED
                     lodepng.h)
 target_compile_features(lodepng PUBLIC cxx_std_17)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/imgui)
+
 
 add_executable(game_heli
 
@@ -28,6 +30,7 @@ add_executable(game_heli
 target_link_libraries(game_heli PRIVATE ${SDL2_LIBRARIES})
 target_include_directories(game_heli PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(game_heli PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(game_heli PUBLIC imgui)
 target_link_libraries(game_heli PRIVATE glad)
 target_link_libraries(game_heli PRIVATE lodepng)
 

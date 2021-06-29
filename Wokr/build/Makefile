@@ -168,6 +168,19 @@ glad/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/build
 .PHONY : glad/fast
 
+#=============================================================================
+# Target rules for targets named imgui
+
+# Build rule for target.
+imgui: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 imgui
+.PHONY : imgui
+
+# fast build rule for target.
+imgui/fast:
+	$(MAKE) $(MAKESILENT) -f imgui/CMakeFiles/imgui.dir/build.make imgui/CMakeFiles/imgui.dir/build
+.PHONY : imgui/fast
+
 game.o: game.cxx.o
 
 .PHONY : game.o
@@ -259,6 +272,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... game_heli"
 	@echo "... glad"
+	@echo "... imgui"
 	@echo "... lodepng"
 	@echo "... game.o"
 	@echo "... game.i"

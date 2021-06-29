@@ -1,1 +1,1 @@
-/usr/bin/g++ -g CMakeFiles/game_heli.dir/game.cxx.o -o game_heli  -Wl,-rpath,/usr/local/lib:/home/vertil/bork/Wokr/build /usr/local/lib/libSDL2-2.0d.so.0.14.0 /usr/local/lib/libSDL2maind.a libglad.so liblodepng.so 
+/usr/bin/g++ -g CMakeFiles/game_heli.dir/game.cxx.o -o game_heli  -Wl,-rpath,/usr/local/lib:/home/vertil/bork/Wokr/build /usr/local/lib/libSDL2-2.0d.so.0.14.0 /usr/local/lib/libSDL2maind.a imgui/libimgui.a libglad.so liblodepng.so 

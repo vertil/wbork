@@ -207,6 +207,11 @@ CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/vec2.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/vec3.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/vec4.hpp
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/glm/vector_relational.hpp
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/imgui/imconfig.h
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/imgui/imgui.h
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/imgui/imgui_impl_opengl3.h
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/imgui/imgui_impl_sdl.h
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/lodepng.h
+CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/myimgui.h
 CMakeFiles/game_heli.dir/game.cxx.o: /home/vertil/bork/Wokr/source/structs.hxx
 

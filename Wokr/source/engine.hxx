@@ -368,7 +368,7 @@ public:
             std::cout<<std::to_string(square)<<std::endl;
 
 
-            if(rebro_lenght*rebro_lenght-0.000001<=square && square<=rebro_lenght*rebro_lenght+0.00001){
+            if(rebro_lenght*rebro_lenght-0.00001<=square && square<=rebro_lenght*rebro_lenght+0.00001){
                 //std::cout<<"sas"<<std::endl;
                 if(colorDun==0.0f){
                     colorDun=1.0f;

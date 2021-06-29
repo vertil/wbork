@@ -344,7 +344,7 @@ public:
             std::vector<glm::vec4> points;
 
             float rebro_lenght=sqrt(pow(point1.x-point2.x,2)+pow(point1.y-point2.y,2));
-            //std::cout<<rebro_lenght;
+            std::cout<<std::to_string(rebro_lenght)<<" ";
             float diag=sqrt(pow(point1.x-point4.x,2)+pow(point1.y-point4.y,2));
             //std::cout<<diag;
             std::vector<float> squares;
@@ -365,10 +365,10 @@ public:
             for(auto i:squares){
                 square+=i;
             }
-            //std::cout<<std::to_string(square)<<std::endl;
+            std::cout<<std::to_string(square)<<std::endl;
 
 
-            if(square<=rebro_lenght*rebro_lenght){
+            if(rebro_lenght*rebro_lenght-0.000001<=square && square<=rebro_lenght*rebro_lenght+0.00001){
                 //std::cout<<"sas"<<std::endl;
                 if(colorDun==0.0f){
                     colorDun=1.0f;

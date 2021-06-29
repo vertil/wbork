@@ -28,7 +28,7 @@ void imgui_newframe(SDL_Window* window){
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
 }
-void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat){
+void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat, bool & isVig,float * color){
 
 
 
@@ -41,16 +41,21 @@ void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat){
        bodyMove*=buffMat;
     }
     if(ImGui::Button("moveLeft")){
-        buffMat=glm::mat4(1.0f);
+        /*buffMat=glm::mat4(1.0f);
 
         buffMat=glm::translate(buffMat, glm::vec3(-0.2f,0.0f,0.0f));
-        bodyMove*=buffMat;
+        bodyMove*=buffMat;*/
+
+        bodyMove[3][0]-=0.1;
     }
     if(ImGui::Button("moveRight")){
-        buffMat=glm::mat4(1.0f);
+        /*buffMat=glm::mat4(1.0f);
 
         buffMat=glm::translate(buffMat, glm::vec3(0.2f,0.0f,0.0f));
-        bodyMove*=buffMat;
+        bodyMove*=buffMat;*/
+
+        bodyMove[3][0]+=0.1;
+
     }
     if(ImGui::Button("Scale+")){
         buffMat=glm::mat4(1.0f);
@@ -64,9 +69,15 @@ void imgui_window(glm::mat4 & bodyMove, glm::mat4 & buffMat){
 
         bodyMove*=buffMat;
     }
+    if(ImGui::Button("Vignette")){
+        if(isVig==true){
+            isVig=false;
+        }else{
+            isVig=true;
+        }
+    }
 
-
-    //Gui::SliderFloat("float", &f, 0.0f, 1.0f);
+    ImGui::SliderFloat("color-mod",color,0.0f,1.0f);
 }
 void imgui_render(){
     ImGui::Render();

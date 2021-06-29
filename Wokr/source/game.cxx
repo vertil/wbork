@@ -18,6 +18,12 @@ int main(int, char **){
         std::cerr << error << std::endl;
         return EXIT_FAILURE;
     }
+    error = eng.initProgramBodyNoVig();//init opengl programs
+    if (!error.empty())
+    {
+        std::cerr << error << std::endl;
+        return EXIT_FAILURE;
+    }
     //loading textures
     if (!eng.load_texture("background.png",0)){
         std::cout<<"failed to load chernarus2.png"<<std::endl;

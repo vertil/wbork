@@ -33,13 +33,16 @@ class engine{
     //openGL programs
     GLuint        program_id_simple = 0;
     GLuint        program_id_body = 0;
+    GLuint        program_id_body_NoVig = 0;
     //textures
     GLuint tex_handl [2];
 
     glm::mat4 bodyMove=glm::mat4(1.0f);
     glm::mat4 buffMat=glm::mat4(1.0f);
 
-    float angle=0;
+    float colorDun=1.0;
+
+    bool isvignette=true;
 
     //--MAP
     triangle background1;
@@ -162,8 +165,7 @@ public:
 
     }
     void initData(){
-        //blow=new animation(1,5,4);
-        //helicopter=new heli(2,3);
+
 
         body1.v[0].x=-0.1;
         body1.v[0].y=-0.1;
@@ -251,28 +253,27 @@ public:
                     case SDL_SCANCODE_A:
                         //move X
                         //std::cout<<std::to_string(bodyMove[3][0])<<" "<<std::to_string(bodyMove[3][1])<<" "<<std::to_string(bodyMove[3][2])<<" "<<std::to_string(bodyMove[3][3])<<std::endl;
-                        buffMat=glm::mat4(1.0f);
+                        //buffMat=glm::mat4(1.0f);
 
-                        buffMat=glm::translate(buffMat, glm::vec3(-0.2f,0.0f,0.0f));
+                        //buffMat=glm::translate(buffMat, glm::vec3(-0.2f,0.0f,0.0f));
 
-                        bodyMove*=buffMat;
+                        //bodyMove*=buffMat;
+                        bodyMove[3][0]-=0.1;
 
                         break;
                     case SDL_SCANCODE_D:
                         //move X
-                        buffMat=glm::mat4(1.0f);
+                        //buffMat=glm::mat4(1.0f);
 
-                        buffMat=glm::translate(buffMat, glm::vec3(0.2f,0.0f,0.0f));
+                        //buffMat=glm::translate(buffMat, glm::vec3(0.2f,0.0f,0.0f));
 
-                        bodyMove*=buffMat;
+                        //bodyMove*=buffMat;
+                        bodyMove[3][0]+=0.1;
                         break;
                     case SDL_SCANCODE_S:
                         //rotate
-                        angle+=45.0f;
-                        if(angle==360.0f){
-                            angle=0.0f;
-                        }
-                        std::cout<<angle<<std::endl;
+
+
                         buffMat=glm::mat4(1.0f);
                         buffMat=glm::rotate(buffMat,glm::radians(45.0f),glm::vec3(0.0f,0.0f,1.0f));
 
@@ -301,11 +302,86 @@ public:
 
 
                 return true;
+            }else if(event_log.type==SDL_MOUSEBUTTONDOWN){
+                checkColl();
+
+
+
+
             }
           return true;
 
         }
         return true;
+    }
+    void checkColl(){
+        int x,y;
+        SDL_GetMouseState(&x,&y);
+        float xf,yf;
+        if(x>=500){
+            xf=0.0f+(1.0f/500.0f)*(x-500);
+        }else{
+            xf=-1+(1.0f/500.0f)*x;
+        }
+        //std::cout<<xf<<std::endl;
+
+        if(y>=500){
+            yf=0.0f+(1.0f/500.0f)*(500-y);
+        }else{
+            yf=-1.0f+(1.0f/500.0f)*(1000-y);
+        }
+        //std::cout<<yf<<std::endl;
+
+
+
+            glm::vec4 point1=glm::vec4(body1.v[0].x,body1.v[0].y,0.0f,0.0f)*bodyMove;
+            glm::vec4 point2=glm::vec4(body1.v[1].x,body1.v[1].y,0.0f,0.0f)*bodyMove;
+            glm::vec4 point4=glm::vec4(body1.v[2].x,body1.v[2].y,0.0f,0.0f)*bodyMove;
+            glm::vec4 point3=glm::vec4(body2.v[1].x,body2.v[1].y,0.0f,0.0f)*bodyMove;
+            std::vector<glm::vec4> points;
+
+            float rebro_lenght=sqrt(pow(point1.x-point2.x,2)+pow(point1.y-point2.y,2));
+            //std::cout<<rebro_lenght;
+            float diag=sqrt(pow(point1.x-point4.x,2)+pow(point1.y-point4.y,2));
+            //std::cout<<diag;
+            std::vector<float> squares;
+
+           squares.push_back(
+             abs( ((point1.x-xf)*(point2.y-yf))-((point2.x-xf)*(point1.y-yf)) ) *0.5f
+             );
+           squares.push_back(
+             abs( ((point2.x-xf)*(point3.y-yf))-((point3.x-xf)*(point2.y-yf)) ) *0.5f
+             );
+           squares.push_back(
+             abs( ((point3.x-xf)*(point4.y-yf))-((point4.x-xf)*(point3.y-yf)) ) *0.5f
+             );
+           squares.push_back(
+             abs( ((point4.x-xf)*(point1.y-yf))-((point1.x-xf)*(point4.y-yf)) ) *0.5f
+             );
+            float square=0;
+            for(auto i:squares){
+                square+=i;
+            }
+            //std::cout<<std::to_string(square)<<std::endl;
+
+
+            if(square<=rebro_lenght*rebro_lenght){
+                //std::cout<<"sas"<<std::endl;
+                if(colorDun==0.0f){
+                    colorDun=1.0f;
+                }else{
+                    colorDun=0.0f;
+                }
+            }
+
+
+
+
+
+
+
+
+
     }
     void swapBuffers(){
         SDL_GL_SwapWindow(window);
@@ -483,17 +559,20 @@ public:
         std::string_view vertex_shader_src = R"(
                                              #version 300 es
                                              uniform mat4 rot_matrix;
+
                                              layout(location=0)in vec4 vPosition;
                                              in vec2 a_tex_coord;
 
-                                             in vec2 a_resolution;
+
 
                                              out vec2 v_tex_coord;
                                              out vec2 u_resolution;
+
                                              void main()
                                              {
                                                  v_tex_coord=a_tex_coord;
-                                                 u_resolution=a_resolution;
+
+
                                                  gl_Position=rot_matrix * vPosition;//vertex pos
                                              }
                                         )";
@@ -534,6 +613,7 @@ public:
                                                in vec2 v_tex_coord;
                                                in vec2 u_resolution;
                                                uniform sampler2D s_texture;
+                                               uniform float color_dub;
                                                out vec4 frag_color;
                                                void main()
                                                {
@@ -542,8 +622,10 @@ public:
 
                                                     float dist=length(pos);
 
-                                                    color.rgb=color.rgb-(1.0-smoothstep(0.6,0.2,dist));
+                                                    color.rgb=(color.rgb-(1.0-smoothstep(0.6,0.2,dist)));
 
+                                                    color.g*=color_dub;
+                                                    color.b*=color_dub;
 
 
                                                     frag_color = color;
@@ -620,6 +702,142 @@ public:
         return "";
 
     }
+    std::string initProgramBodyNoVig(){
+        std::stringstream serr;
+        //vertex
+        GLuint vert_shader = glCreateShader(GL_VERTEX_SHADER);
+        OM_GL_CHECK()
+        std::string_view vertex_shader_src = R"(
+                                             #version 300 es
+                                             uniform mat4 rot_matrix;
+                                             layout(location=0)in vec4 vPosition;
+                                             in vec2 a_tex_coord;
+
+                                             out vec2 v_tex_coord;
+
+                                             void main()
+                                             {
+
+                                                 v_tex_coord=a_tex_coord;
+                                                 gl_Position=rot_matrix * vPosition;//vertex pos
+                                             }
+                                        )";
+        const char* source            = vertex_shader_src.data();
+        glShaderSource(vert_shader, 1, &source, nullptr);
+        OM_GL_CHECK()
+
+        glCompileShader(vert_shader);
+        OM_GL_CHECK()
+
+        GLint compiled_status = 0;
+        glGetShaderiv(vert_shader, GL_COMPILE_STATUS, &compiled_status);
+        OM_GL_CHECK()
+        if (compiled_status == 0)
+        {
+            GLint info_len = 0;
+            glGetShaderiv(vert_shader, GL_INFO_LOG_LENGTH, &info_len);
+            OM_GL_CHECK()
+            std::vector<char> info_chars(static_cast<size_t>(info_len));
+            glGetShaderInfoLog(vert_shader, info_len, nullptr, info_chars.data());
+            OM_GL_CHECK()
+            glDeleteShader(vert_shader);
+            OM_GL_CHECK()
+
+            std::string shader_type_name = "vertex";
+            serr << "Error compiling shader(vertex)\n"
+                 << vertex_shader_src << "\n"
+                 << info_chars.data();
+            return serr.str();
+        }
+        //fragment
+        GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+        OM_GL_CHECK()
+        std::string_view fragment_shader_src = R"(
+                                               #version 300 es
+                                               precision mediump float;
+
+                                               in vec2 v_tex_coord;
+
+                                               uniform sampler2D s_texture;
+                                               uniform float color_dub;
+
+                                               out vec4 frag_color;
+                                               void main()
+                                               {
+                                               vec4 color=texture(s_texture, v_tex_coord);
+                                                 color.g*=color_dub;
+                                                 color.b*=color_dub;
+                                                 frag_color = color;
+                                               }
+                          )";
+        /**/
+        source                          = fragment_shader_src.data();
+        glShaderSource(fragment_shader, 1, &source, nullptr);
+        OM_GL_CHECK()
+
+        glCompileShader(fragment_shader);
+        OM_GL_CHECK()
+
+        compiled_status = 0;
+        glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &compiled_status);
+        OM_GL_CHECK()
+        if (compiled_status == 0)
+        {
+            GLint info_len = 0;
+            glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &info_len);
+            OM_GL_CHECK()
+            std::vector<char> info_chars(static_cast<size_t>(info_len));
+            glGetShaderInfoLog(
+                fragment_shader, info_len, nullptr, info_chars.data());
+            OM_GL_CHECK()
+            glDeleteShader(fragment_shader);
+            OM_GL_CHECK()
+
+            serr << "Error compiling shader(fragment)\n"
+                 << vertex_shader_src << "\n"
+                 << info_chars.data();
+            return serr.str();
+        }
+        //union shaderis in one program
+
+        program_id_body_NoVig = glCreateProgram();
+        OM_GL_CHECK()
+        if (0 == program_id_body_NoVig)
+        {
+            serr << "failed to create gl program";
+            return serr.str();
+        }
+
+        glAttachShader(program_id_body_NoVig, vert_shader);
+        OM_GL_CHECK()
+        glAttachShader(program_id_body_NoVig, fragment_shader);
+        OM_GL_CHECK()
+
+        // bind attribute location
+        glBindAttribLocation(program_id_body_NoVig, 0, "a_position");
+        OM_GL_CHECK()
+        // link program after binding attribute locations
+        glLinkProgram(program_id_body_NoVig);
+        OM_GL_CHECK()
+        // Check the link status
+        GLint linked_status = 0;
+        glGetProgramiv(program_id_body_NoVig, GL_LINK_STATUS, &linked_status);
+        OM_GL_CHECK()
+        if (linked_status == 0)
+            {
+                GLint infoLen = 0;
+                glGetProgramiv(program_id_body_NoVig, GL_INFO_LOG_LENGTH, &infoLen);
+                OM_GL_CHECK()
+                    std::vector<char> infoLog(static_cast<size_t>(infoLen));
+                glGetProgramInfoLog(program_id_body_NoVig, infoLen, nullptr, infoLog.data());
+                OM_GL_CHECK()
+                serr << "Error linking program:\n" << infoLog.data();
+                glDeleteProgram(program_id_body_NoVig);
+                OM_GL_CHECK()
+                return serr.str();
+            }
+        return "";
+    }
     std::string activateProgBackground(uint8_t text_num){
         glUseProgram(program_id_simple);
         OM_GL_CHECK()
@@ -646,6 +864,10 @@ public:
         glUseProgram(program_id_body);
         OM_GL_CHECK()
 
+        GLuint mum=glGetUniformLocation(program_id_body,"color_dub");
+        glUniform1f(mum,colorDun);
+
+
 
 
         GLuint mem=glGetUniformLocation(program_id_body,"rot_matrix");
@@ -656,6 +878,40 @@ public:
 
 
         int location = glGetUniformLocation(program_id_body, "s_texture");
+        OM_GL_CHECK()
+        assert(-1 != location);
+        int texture_unit = text_num;//number of texture
+        glActiveTexture(GL_TEXTURE0 + texture_unit);
+        OM_GL_CHECK()
+
+        glUniform1i(location, 0 + texture_unit);
+        OM_GL_CHECK()
+
+        glEnable(GL_BLEND);
+        OM_GL_CHECK()
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        OM_GL_CHECK()
+
+        return "";
+    }
+    std::string activateProgBodyNoVig(uint8_t text_num, glm::mat4 mat_in){
+        // turn on rendering with just created shader program
+        glUseProgram(program_id_body_NoVig);
+        OM_GL_CHECK()
+
+                GLuint mum=glGetUniformLocation(program_id_body,"color_dub");
+                glUniform1f(mum,colorDun);
+
+
+
+        GLuint mem=glGetUniformLocation(program_id_body_NoVig,"rot_matrix");
+        OM_GL_CHECK()
+
+        glUniformMatrix4fv(mem,1,GL_FALSE,glm::value_ptr(mat_in));
+                OM_GL_CHECK()
+
+
+        int location = glGetUniformLocation(program_id_body_NoVig, "s_texture");
         OM_GL_CHECK()
         assert(-1 != location);
         int texture_unit = text_num;//number of texture
@@ -713,13 +969,21 @@ public:
     void render(){
         render_background();
 
-        activateProgBody(1,bodyMove);
-        render_triangle(body1);
-        render_triangle(body2);
+
+
+        if(isvignette==true){
+            activateProgBody(1,bodyMove);
+            render_triangle(body1);
+            render_triangle(body2);
+        }else{
+            activateProgBodyNoVig(1,bodyMove);
+            render_triangle(body1);
+            render_triangle(body2);
+        }
 
         //imhui part
         imgui_newframe(window);
-        imgui_window(bodyMove,buffMat);
+        imgui_window(bodyMove,buffMat,isvignette,&colorDun);
         imgui_render();
 
 
